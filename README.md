@@ -6,12 +6,23 @@ This is a simple benchmark to test the performance of ElasticSearch versions und
 
 Here's what I use to test from scratch (note, the down -v will clear the stored ES data):
 
-`docker-compose down -v ; ES_VERSION=6.3.2 ES_COUNT=1000 ES_URL=http://$(hostname):9200 docker-compose up`
+`docker-compose down -v ; ES_VERSION=6.3.2 ES_COUNT=1000 ES_URL=http://elasticsearch:9200 docker-compose up`
 
 When developing start ElasticSearch: `ES_VERSION=6.3.2 docker-compose up elasticsearch`
 
 then setup the python basics with ```python3 -m venv `pwd`/venv && ./venv/bin/python3 setup.py build install```
 and run the test with something like `./venv/bin/locust -f update_load.py -n 1000 -c 10 --no-web --host http://localhost:9200 --no-reset-stats`
+
+# Performance summary
+
+This shows the bulk update processing time for 5.X - 6.2 as about 4X what it was in 2.4.6. ES 6.3.2 has returned to the earlier speed.
+
+| Version | 50% time | 90% time |
+| ------- | -------- | -------- |
+| 2.4.6   | 100      | 150      |
+| 5.6.10  | 410      | 600      |
+| 6.2.4   | 410      | 590      |
+| 6.3.2   | 110      | 160      |
 
 
 # Larger batch updates tens per update
@@ -19,7 +30,7 @@ and run the test with something like `./venv/bin/locust -f update_load.py -n 100
 ## ES 2.4.6
 
 ````
-$ docker-compose down -v ; IMAGE_BASE=elasticsearch ES_VERSION=2.4.6 ES_COUNT=2000 ES_URL=http://$(hostname):9200 docker-compose up
+$ docker-compose down -v ; IMAGE_BASE=elasticsearch ES_VERSION=2.4.6 ES_COUNT=2000 ES_URL=http://elasticsearch:9200 docker-compose up
 ...
 Percentage of the requests completed within given times
  Name                                                           # reqs    50%    66%    75%    80%    90%    95%    98%    99%   100%
@@ -33,7 +44,7 @@ Percentage of the requests completed within given times
 ## ES 5.6.10
 
 ````
-$ docker-compose down -v ; ES_VERSION=5.6.10 ES_COUNT=2000 ES_URL=http://$(hostname):9200 docker-compose up
+$ docker-compose down -v ; ES_VERSION=5.6.10 ES_COUNT=2000 ES_URL=http://elasticsearch:9200 docker-compose up
 ...
 Percentage of the requests completed within given times
  Name                                                           # reqs    50%    66%    75%    80%    90%    95%    98%    99%   100%
@@ -47,7 +58,7 @@ Percentage of the requests completed within given times
 ## ES 6.2.4
 
 ````
-$ docker-compose down -v ; ES_VERSION=6.2.4 ES_COUNT=2000 ES_URL=http://$(hostname):9200 docker-compose up
+$ docker-compose down -v ; ES_VERSION=6.2.4 ES_COUNT=2000 ES_URL=http://elasticsearch:9200 docker-compose up
 ...
 Percentage of the requests completed within given times
  Name                                                           # reqs    50%    66%    75%    80%    90%    95%    98%    99%   100%
@@ -61,7 +72,7 @@ Percentage of the requests completed within given times
 ## ES 6.3.2
 
 ````
-$ docker-compose down -v ; ES_VERSION=6.3.2 ES_COUNT=2000 ES_URL=http://$(hostname):9200 docker-compose up
+$ docker-compose down -v ; ES_VERSION=6.3.2 ES_COUNT=2000 ES_URL=http://elasticsearch:9200 docker-compose up
 ...
 Percentage of the requests completed within given times
  Name                                                           # reqs    50%    66%    75%    80%    90%    95%    98%    99%   100%
@@ -80,7 +91,7 @@ Initial results on my laptop with single digit size updates
 
 
 ````
-$ docker-compose down -v ; IMAGE_BASE=elasticsearch ES_VERSION=2.4.6 ES_COUNT=2000 ES_URL=http://$(hostname):9200 docker-compose up
+$ docker-compose down -v ; IMAGE_BASE=elasticsearch ES_VERSION=2.4.6 ES_COUNT=2000 ES_URL=http://elasticsearch:9200 docker-compose up
 ...
 Percentage of the requests completed within given times
  Name                                                           # reqs    50%    66%    75%    80%    90%    95%    98%    99%   100%
@@ -94,7 +105,7 @@ Percentage of the requests completed within given times
 ## ES 5.6.10
 
 ````
-$ docker-compose down -v ; ES_VERSION=5.6.10 ES_COUNT=2000 ES_URL=http://$(hostname):9200 docker-compose up
+$ docker-compose down -v ; ES_VERSION=5.6.10 ES_COUNT=2000 ES_URL=http://elasticsearch:9200 docker-compose up
 ...
 
 Percentage of the requests completed within given times
@@ -107,7 +118,7 @@ Percentage of the requests completed within given times
 
 ## ES 6.2.4
 ````
-$ docker-compose down -v ; ES_VERSION=6.2.4 ES_COUNT=2000 ES_URL=http://$(hostname):9200 docker-compose up
+$ docker-compose down -v ; ES_VERSION=6.2.4 ES_COUNT=2000 ES_URL=http://elasticsearch:9200 docker-compose up
 ...
 Percentage of the requests completed within given times
  Name                                                           # reqs    50%    66%    75%    80%    90%    95%    98%    99%   100%
@@ -120,7 +131,7 @@ Percentage of the requests completed within given times
 
 ## ES 6.3.2
 ````
-$ docker-compose down -v ; ES_VERSION=6.3.2 ES_COUNT=2000 ES_URL=http://$(hostname):9200 docker-compose up
+$ docker-compose down -v ; ES_VERSION=6.3.2 ES_COUNT=2000 ES_URL=http://elasticsearch:9200 docker-compose up
 ...
 Percentage of the requests completed within given times
  Name                                                           # reqs    50%    66%    75%    80%    90%    95%    98%    99%   100%

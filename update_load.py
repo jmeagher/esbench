@@ -34,8 +34,8 @@ class UpdateLoadTasks(TaskSet):
         if self.client.get("/_cluster/health", name="wait_for_startup").status_code == 200:
           return
         time.sleep(5)
-      except:
-        pass
+      except Exception as err:
+        print(err)
 
   @task(1)
   def create(self):
