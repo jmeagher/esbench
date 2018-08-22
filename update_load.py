@@ -70,7 +70,7 @@ class UpdateLoadTasks(TaskSet):
     else:
       updates=[
         "{ \"update\": {\"_index\":\"%s\", \"_type\": \"test\", \"_id\":%i} }\n{\"doc\":%s}" % 
-        (test_index, random.randint(1, max_id-1), json.dumps(fake_update())) for i in range(1,3)
+        (test_index, random.randint(1, max_id-1), json.dumps(fake_update())) for i in range(1,20)
       ]
       update_body="\n".join(updates)+"\n"
       # print(update_body)
