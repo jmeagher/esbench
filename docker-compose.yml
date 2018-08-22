@@ -1,0 +1,29 @@
+version: '3'
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:${ES_VERSION}
+    container_name: elasticsearch
+    environment:
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - xpack.security.enabled=false
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+
+  locust_test:
+    image: python:3.7.0-stretch
+    volumes:
+      - ./:/app
+    command: /bin/bash -c 'cd app && python3 setup.py install && locust -f update_load.py -n ${ES_COUNT} -c 10 --no-web --host ${ES_URL} --no-reset-stats'
+
+
+volumes:
+  esdata:
+    driver: local
