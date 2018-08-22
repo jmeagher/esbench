@@ -9,6 +9,20 @@ and run the test with something like `./venv/bin/locust -f update_load.py -n 100
 
 Here are some non-scientific outputs from a local run on my laptop:
 
+ES 2.4.6
+
+````
+$ docker-compose down -v ; IMAGE_BASE=elasticsearch ES_VERSION=2.4.6 ES_COUNT=2000 ES_URL=http://$(hostname):9200 docker-compose up
+...
+Percentage of the requests completed within given times
+ Name                                                           # reqs    50%    66%    75%    80%    90%    95%    98%    99%   100%
+--------------------------------------------------------------------------------------------------------------------------------------------
+ POST bulk_update                                                 1873     30     39     50     58     88    130    280    360    494
+ PUT create                                                         73     24     29     37     43     81    140    330   1100   1110
+ GET fetch                                                          45     14     18     27     29     49     67    160    160    163
+ GET wait_for_startup                                               10     36     41     42     83    120    120    120    120    121
+````
+
 ES 5.6.10
 
 ````
